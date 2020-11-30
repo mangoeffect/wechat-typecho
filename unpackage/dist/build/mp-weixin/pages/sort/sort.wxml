@@ -1,0 +1,12 @@
+<view>
+	<view class="cat_list">
+		<block wx:for="{{catList}}" wx:for-item="item" wx:for-index="index" wx:key="index">
+			<view data-event-opts="{{[['tap',[['goSortList',['$0','$1'],[[['catList','',index,'mid']],[['catList','',index,'name']]]]]]]}}"
+			 class="cat" bindtap="__e">
+				<view class="name">{{item.name}}</view>
+				<view class="des">{{item.description}}</view>
+				<image src="../../static/list.png" mode="widthFix"></image>
+			</view>
+		</block>
+	</view>
+</view>

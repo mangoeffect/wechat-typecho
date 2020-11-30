@@ -1,0 +1,18 @@
+<view>
+	<view class="top">{{''+name+''}}</view>
+	<view class="article_list">
+		<block wx:for="{{articleList}}" wx:for-item="item" wx:for-index="index" wx:key="index">
+			<view data-event-opts="{{[['tap',[['goDetails',['$0'],[[['articleList','',index,'cid']]]]]]]}}" class="article"
+			 bindtap="__e">
+				<image class="thumb" src="{{item.thumb[0].str_value}}" mode="aspectFill"></image>
+				<view class="title">{{item.title}}</view>
+				<view class="des">{{item.description[0].str_value}}</view>
+				<view class="flex margin-sm shuju">
+					<view class="views text-center"><text class="cuIcon-attention margin-right-xs"></text>{{item.views}}</view>
+					<view class="comments text-center"><text class="cuIcon-comment margin-right-xs"></text>{{item.commentsNum}}</view>
+					<view class="likes text-center"><text class="cuIcon-like margin-right-xs"></text>{{item.likes}}</view>
+				</view>
+			</view>
+		</block>
+	</view>
+</view>

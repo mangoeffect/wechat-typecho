@@ -1,0 +1,23 @@
+<view>
+	<view class="article_list">
+		<block wx:for="{{searchlist}}" wx:for-item="item" wx:for-index="index" wx:key="index">
+			<view data-event-opts="{{[['tap',[['goDetails',['$0'],[[['searchlist','',index,'cid']]]]]]]}}" class="article"
+			 bindtap="__e">
+				<image class="thumb" src="{{item.thumb[0].str_value}}" mode="aspectFill"></image>
+				<view class="title">{{item.title}}</view>
+				<view class="des">{{item.description[0].str_value}}</view>
+				<view class="flex margin-sm shuju">
+					<view class="views text-center"><text class="cuIcon-attention margin-right-xs"></text>{{item.views[0].views}}</view>
+					<view class="comments text-center"><text class="cuIcon-comment margin-right-xs"></text>{{item.commentsNum}}</view>
+					<view class="likes text-center"><text class="cuIcon-like margin-right-xs"></text>{{item.likes[0].likes}}</view>
+				</view>
+			</view>
+		</block>
+	</view>
+	<block wx:if="{{nores}}">
+		<view class="nores">
+			<image src="../../static/nores.png" mode="widthFix"></image>
+			<view class="tip">未找到你想要的文章</view>
+		</view>
+	</block>
+</view>

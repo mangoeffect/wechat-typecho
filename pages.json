@@ -1,0 +1,99 @@
+{
+	"pages": [
+		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {}
+		}, {
+			"path": "pages/sort/sort",
+			"style": {}
+		}, {
+			"path": "pages/search/search",
+			"style": {}
+		}, {
+			"path": "pages/mine/mine",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		}, {
+			"path": "pages/details/details",
+			"style": {
+				"navigationBarTitleText": "文章详情"
+			}
+		}, {
+			"path": "pages/searchlist/searchlist",
+			"style": {
+				"navigationBarTitleText": "搜索详情"
+			}
+		}, {
+			"path": "pages/sortList/sortList",
+			"style": {
+				"navigationBarTitleText": "分类列表"
+			}
+		}
+	    ,{
+            "path" : "pages/account/account",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "公众号文章",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/newgame/newgame",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "更多好玩",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
+	"tabBar": {
+		"color": "#a4a4a4",
+		"selectedColor": "#55aaff",
+		"borderStyle": "white",
+		"backgroundColor": "#ffffff",
+		"list": [{
+				"text": "首页",
+				"pagePath": "pages/index/index",
+				"iconPath": "static/tabbar/home.png",
+				"selectedIconPath": "static/tabbar/home_c.png"
+
+			},
+			{
+				"text": "分类",
+				"pagePath": "pages/sort/sort",
+				"iconPath": "static/tabbar/sort.png",
+				"selectedIconPath": "./static/tabbar/sort_c.png"
+			},
+			{
+				"text": "搜索",
+				"pagePath": "pages/search/search",
+				"iconPath": "./static/tabbar/hot.png",
+				"selectedIconPath": "./static/tabbar/hot_c.png"
+			},
+			{
+				"text": "我的",
+				"pagePath": "pages/mine/mine",
+				"iconPath": "static/tabbar/mine.png",
+				"selectedIconPath": "./static/tabbar/mine_c.png"
+			}
+		]
+	},
+	"globalStyle": {
+		"mp-alipay": {
+			/* 支付宝小程序特有相关 */
+			"transparentTitle": "always",
+			"allowsBounceVertical": "NO"
+		},
+		"navigationBarBackgroundColor": "#ffffff",
+		"navigationBarTitleText": "双鱼小程序 - typecho",
+		"navigationBarTextStyle": "black"
+	},
+	"usingComponts": true,
+	"navigateToMiniProgramAppIdList": ["1110213894"],
+	"groupIdList": ["927510477"]
+
+}

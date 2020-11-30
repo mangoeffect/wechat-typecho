@@ -1,0 +1,37 @@
+<view class="data-v-4d74ab86">
+	<view class="cu-bar search bg-white data-v-4d74ab86">
+		<view class="search-form round data-v-4d74ab86"><text class="cuIcon-search data-v-4d74ab86"></text><input
+			 confirm-type="search" placeholder="孩子,在这里输入搜索内容!" data-event-opts="{{[['confirm',[['searchStart']]],['input',[['__set_model',['','searchText','$event',['trim']]]]],['blur',[['$forceUpdate']]]]}}"
+			 value="{{searchText}}" bindconfirm="__e" bindinput="__e" bindblur="__e" class="data-v-4d74ab86" /></view>
+		<view class="action data-v-4d74ab86"><button data-event-opts="{{[['tap',[['searchStart']]]]}}" class="cu-btn  shadow-blur round data-v-4d74ab86"
+			 bindtap="__e">搜索</button></view>
+	</view>
+	<block wx:if="{{hList.length>0}}">
+		<view class="s-circle radius bg-white data-v-4d74ab86">
+			<view class="header data-v-4d74ab86"><text class="cuIcon-title padding-right-sm text-blue data-v-4d74ab86"></text>历史记录<image
+				 src="../../static/zy-search/delete.svg" mode="aspectFit" data-event-opts="{{[['tap',[['delhistory',['$event']]]]]}}"
+				 bindtap="__e" class="data-v-4d74ab86"></image>
+			</view>
+			<view class="list data-v-4d74ab86">
+				<block wx:for="{{hList}}" wx:for-item="item" wx:for-index="index" wx:key="index">
+					<view data-event-opts="{{[['tap',[['liSou',['$0'],[[['hList','',index]]]]]]]}}" bindtap="__e" class="data-v-4d74ab86">{{item}}</view>
+				</block>
+			</view>
+		</view>
+	</block>
+	<view class="wanted-circle bg-white data-v-4d74ab86">
+		<view class="header data-v-4d74ab86"><text class="cuIcon-title padding-right-sm text-blue data-v-4d74ab86"></text>猜你想搜</view>
+		<view class="list data-v-4d74ab86">
+			<block wx:for="{{hotKeywordList}}" wx:for-item="item" wx:for-index="index" wx:key="*this">
+				<view data-event-opts="{{[['tap',[['keywordsClick',['$0'],[[['hotKeywordList','',index]]]]]]]}}" bindtap="__e"
+				 class="data-v-4d74ab86">{{item}}</view>
+			</block>
+		</view>
+	</view>
+	<view class="wanted-circle bg-white data-v-4d74ab86">
+		<view class="header data-v-4d74ab86"><text class="cuIcon-title padding-right-sm text-orange data-v-4d74ab86"></text>推荐阅读</view>
+	</view>
+	<view class="ad data-v-4d74ab86">
+		<ad unit-id="adunit-aeed43498ec75860" ad-type="video" ad-theme="white" class="data-v-4d74ab86"></ad>
+	</view>
+</view>
