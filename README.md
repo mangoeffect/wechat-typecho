@@ -47,7 +47,7 @@
 ```
 ### latex解析服务器
 
-towxml实现对数学公式解析的方式是通过部署后台服务器将公式
+towxml实现对数学公式解析的方式是通过部署后台服务器将公式转为图片返回给前端显示，因此需要部署自己的towxml服务器，详细的部署过程开源参考我上一篇文章[wetypecho加入latex数学公式支持](https://mangoroom.cn/website/wetyoeho-support-latex-render.html),部署成功后，需要将该域名添加到微信小程序的白名单中。
 
 ### 适配编译本项目
 
@@ -113,12 +113,12 @@ var API_URL = 'https://' + domain + '/api/';
 ```json
 // 数学公式解析API
 latex:{
-    api:'http://towxml.vvadd.com/?tex'  //替换为自己的解析服务地址
+    api:'http://towxml.vvadd.com/?tex'  //替换为自己的latex解析服务地址
 },
 
 // yuml图解析APPI
 yuml:{
-    api:'http://towxml.vvadd.com/?yuml' //替换为自己的解析服务地址
+    api:'http://towxml.vvadd.com/?yuml' //替换为自己的latex解析服务地址
 },
 ```
 
