@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="bg">
 		<view class="top">
 			{{name}}
 		</view>
@@ -8,7 +8,7 @@
 				<image :src="item.thumb[0].str_value" class="thumb" mode="aspectFill"></image>
 				<view class="title">{{item.title}}</view>
 				<view class="des">{{item.description[0].str_value}}</view>
-				<view class="flex margin-sm shuju">
+				<view class=" margin-sm shuju">
 					<view class="views text-center"><text class="cuIcon-attention margin-right-xs"></text>{{item.views}}</view>
 					<view class="comments text-center"><text class="cuIcon-comment margin-right-xs"></text>{{item.commentsNum}}</view>
 					<view class="likes text-center"><text class="cuIcon-like margin-right-xs"></text>{{item.likes}}</view>
@@ -83,6 +83,9 @@
 </script>
 
 <style lang="less">
+	.bg{
+		background-color: #f9f9f9;
+	}
 	.top{
 		width: 700rpx;
 		height: 200rpx;
@@ -100,22 +103,23 @@
 		flex-wrap: wrap;
 
 		.article {
+			background-color: #FFFFFF;
+			box-shadow: 0 0 10rpx #FFFFFF;
 			margin: 27.5rpx;
 			width: 320rpx;
-			box-shadow: 0 0 10rpx #e1e1e1;
-			border-radius: 20rpx;
+			border-radius: 10rpx;
 
 			.thumb {
 				width: 320rpx;
-				height: 150rpx;
-				border-radius: 20rpx 20rpx 0 0 ;
+				height: 160rpx;
+				border-radius: 10rpx 10rpx 0 0 ;
 			}
 
 			.title {
-				width: 310rpx;
+				width: 305rpx;
 				font-size: 30rpx;
 				line-height: 50rpx;
-				margin: 10rpx;
+				margin: 10rpx 12.5rpx;
 				overflow: hidden;
 				text-overflow: ellipsis;
 				height: 50rpx;
@@ -136,22 +140,18 @@
 			.shuju{
 				position: relative;
 				bottom: -10rpx;
+				display: flex;
+				justify-content: space-around;
 			}
 			.views{
-				width: 100rpx;
-				margin: 5rpx;
 				color: #d0d0d0;
 				font-size: 24rpx;
 			}
 			.comments{
-				width: 100rpx;
-				margin: 5rpx;
 				color: #d0d0d0;
 				font-size: 24rpx;
 			}
 			.likes{
-				width: 100rpx;
-				margin: 5rpx;
 				color: #d0d0d0;
 				font-size: 24rpx;
 			}

@@ -10,8 +10,11 @@
 				</view>
 			</view>
 		</view>
-		<view class="content"><jyf-parser :html="content" :use-cache="true" :show-with-animation="true"></jyf-parser></view>
-
+		<view class="content">
+				<towxml :nodes="htmlContent"/>
+		</view>
+		
+		<view class="new_ad" v-if="isPay == '1'" @click="unlockContent">观看一则视频广告，查看全部...</view>
 		<view class="encryption" v-if="encrypted != ''">
 			<view v-if="!decrypt">
 				<view class="encryption_title">该文章有加密内容</view>
@@ -24,8 +27,8 @@
 				<!-- #endif -->
 				<view class="flexa">
 					<!-- #ifndef MP-QQ -->
-					<button class="copy" @click="copy(keyword)">复制关键词</button>
-					<button class="get" @click="getEncrypted">获取密钥</button>
+				<!-- 	<button class="copy" @click="copy(keyword)">复制关键词</button> -->
+					<button class="get" @click="getEncrypted">获取资源</button>
 					<!-- #endif -->
 					<button class="adget" @click="adGet">广告解锁</button>
 				</view>
@@ -43,20 +46,25 @@
 				<image src="../../static/login.png" mode="widthFix"></image>
 				<view class="login_btn">
 					<button @click="colseLogin">算了</button>
+					<!-- #ifdef MP-WEIXIN -->
+					<button @click="getuserinfo">点击登录</button>
+					<!-- #endif -->
+					<!-- #ifndef MP-WEIXIN -->
 					<button open-type="getUserInfo" @getuserinfo="getuserinfo">登录</button>
+					<!-- #endif -->
+					
 				</view>
 			</view>
 		</view>
-		<view class="ad"><ad unit-id="adunit-b1362a923c58a450"></ad></view>
-		<view class="copyright" :style="showshare != '1' || commentsNum == '0' ? 'margin-bottom: 100rpx;' : ''">
+		<view class="ad"><ad unit-id="adunit-aeed43498ec75860" ad-type="video" ad-theme="white"></ad></view>
+		<view class="copyright" :style=" commentsNum == '0' ? 'margin-bottom: 100rpx;' : ''">
 			<!-- #ifndef MP-QQ -->
 			<view class="account">{{ account }}</view>
 			<!-- #endif -->
-
 			<view class="website">{{ website }}</view>
 		</view>
 
-		<view v-if="showshare == '1'">
+		<view >
 			<view class="comments" v-if="commentsNum != '0'">
 				<view class="comments_title">评论列表</view>
 				<view class="comments_des" v-for="(item, index) in comments" :key="index">
@@ -89,7 +97,7 @@
 			<button @click="getPoster"><image src="../../static/details/haibao.png" mode="widthFix"></image></button>
 		</view>
 		<view class="cmt_input" v-if="showCmt"><input v-model="commentText" placeholder="请输入评论内容" placeholder-class="placeholder" @confirm="addComment" /></view>
-		<view class="canvas-box"><canvas canvas-id="canvas" class="canvas" style="width: 350px; height: 600px;"></canvas></view>
+		<view class="canvas-box"><canvas canvas-id="canvas" class="canvas" style="width: 350px; height: 450px;"></canvas></view>
 		<view class="mask_poster" v-if="showPoster" @touchmove.prevent catchtouchmove="ture">
 			<image :src="poster" v-if="poster" mode="widthFix" class="poster"></image>
 			<view class="poster_btn">
@@ -102,16 +110,21 @@
 
 <script>
 var videoAd = null;
+var videoContentAd = null;
 import marked from 'marked';
 import jyfParser from '@/components/jyf-parser/jyf-parser';
 import API from '../../utils/api.js';
 import CFG from '../../utils/config.js';
+import towxml from '../../static/towxml/towxml'
+
 export default {
 	data() {
 		return {
-			cid: '124',
+			cid: '145',
 			title: '',
+			htmlContent:"",
 			content: '',
+			encryptionContent: '',
 			thumb: '',
 			time: '',
 			likes: '',
@@ -136,12 +149,14 @@ export default {
 			showCmt: false,
 			showPoster: false,
 			poster: '',
-			description: ''
+			description: '',
 		};
 	},
 	components: {
-		jyfParser
+	    jyfParser,
+		towxml
 	},
+
 	onLoad(e) {
 		this.cid = e.cid;
 		console.log(this.cid);
@@ -174,7 +189,16 @@ export default {
 				success: function(res) {
 					var a = res.data.data[0];
 					console.log(a);
-					that.content = marked(a.text).replace(/!!!/g, '');
+					that.isPay = a.isPay[0].str_value;
+					let content_parse = that.towxml(a.text.replace(/!!!/g,""),'markdown');
+					that.content = content_parse;
+					//that.encryptionContent = that.content.substr(0, parseInt(that.content.length * 0.2));
+					that.encryptionContent = towxml(a.text.substr(0, parseInt(that.content.length * 0.2)).replace(/!!!/g, ""),'markdown');
+					if(that.isPay=='1'){
+						that.htmlContent = that.encryptionContent
+					}else{
+						that.htmlContent = that.content
+					}
 					that.title = a.title;
 					that.showshare = a.showshare;
 					that.thumb = a.thumb[0].str_value;
@@ -187,7 +211,7 @@ export default {
 					that.website = a.website;
 					that.account = a.account;
 					that.keyword = a.keyword[0].str_value;
-					that.isPay = a.isPay[0].str_value;
+					
 					that.code = a.code[0].str_value;
 					that.encrypted = a.encrypted[0].str_value;
 					that.description = a.description[0].str_value;
@@ -224,15 +248,43 @@ export default {
 		},
 		getuserinfo: function() {
 			var that = this;
-			// wx登录
-			wx.login({
+			// #ifdef MP-WEIXIN
+			let code = '';
+			uni.login({
+				success: res => {
+					console.log(res);
+					code = res.code;
+				}
+			});
+			uni.getUserProfile({
+				desc: '用于完善会员资料',
+				success: res => {
+					console.log(res);
+					res.userInfo.code = code;
+					that.userInfo = res.userInfo;
+					uni.request({
+						url: API.WXLogin(that.userInfo),
+						success: res => {
+							that.userInfo.openid = res.data.data;
+							uni.setStorageSync('isLogin', true);
+							uni.setStorageSync('userInfo', that.userInfo);
+							uni.setStorageSync('openid', that.userInfo.openid);
+							that.showLogin = false;
+						}
+					});
+				}
+			});
+			// #endif
+			//其他登录
+			// #ifndef MP-WEIXIN
+			uni.login({
 				success(res) {
 					// console.log(res)
 					if (res.code) {
 						//发起网络请求
 						var code = res.code;
 						// 获取微信用户信息
-						wx.getUserInfo({
+						uni.getUserInfo({
 							success: function(res) {
 								res.userInfo.code = code;
 								that.userInfo = res.userInfo;
@@ -244,12 +296,13 @@ export default {
 									url: API.QQLogin(that.userInfo),
 									// #endif
 									success: function(res) {
-										console.log(res);
+										// console.log(res);
 										that.userInfo.openid = res.data.data;
+										uni.setStorageSync('isLogin', true);
 										uni.setStorageSync('userInfo', that.userInfo);
 										uni.setStorageSync('openid', that.userInfo.openid);
 										that.showLogin = false;
-										console.log(that.userInfo);
+										// console.log(that.userInfo);
 									}
 								});
 							},
@@ -261,6 +314,7 @@ export default {
 					}
 				}
 			});
+			// #endif
 		},
 		getPoster: function() {
 			uni.showLoading({
@@ -281,43 +335,24 @@ export default {
 					ctx.setFillStyle('#1e1e1e');
 					const title = that.title;
 					ctx.fillText(title, 10, 230);
-
-					const description = that.description;
-					var temp = '';
-					var row = [];
-					ctx.setFontSize(14);
-					ctx.setFillStyle('#2f2f2f');
-					for (var a = 0; a < description.length; a++) {
-						if (ctx.measureText(temp).width < 292) {
-							temp += description[a];
-						} else {
-							a--;
-							row.push(temp);
-							temp = '';
-						}
-					}
-					row.push(temp);
-					for (var b = 0; b < row.length; b++) {
-						ctx.fillText(row[b], 30, 270 + b * 35, 300);
-					}
 					//#ifndef MP-QQ
 					let xcxm = '../../static/wxcxm.png';
 					//#endif
 					//#ifdef MP-QQ
 					let xcxm = '../../static/qxcxm.png';
 					//#endif
-					ctx.drawImage(xcxm, 130, 460, 100, 100);
+					ctx.drawImage(xcxm, 130, 300, 100, 100);
 
 					ctx.draw(false, res => {
 						uni.canvasToTempFilePath({
 							canvasId: 'canvas',
 							width: 350,
-							height: 600,
+							height: 450,
 							success: function(res) {
 								uni.hideLoading();
 								that.showPoster = true;
 								that.poster = res.tempFilePath;
-								console.log(that.poster);
+								// console.log(that.poster);
 							}
 						});
 					});
@@ -338,6 +373,21 @@ export default {
 					}
 				});
 			}
+			if (wx.createRewardedVideoAd) {
+				videoContentAd = wx.createRewardedVideoAd({
+					adUnitId: CFG.adId.createRewardedVideoAd
+				});
+				videoContentAd.onLoad(() => {});
+				videoContentAd.onError(err => {});
+				videoContentAd.onClose(status => {
+					if ((status && status.isEnded) || status === undefined) {
+						this.isPay = "0";
+						this.htmlContent = this.content
+					}else{
+						
+					}
+				});
+			}
 		},
 		adGet: function() {
 			if (videoAd) {
@@ -346,6 +396,19 @@ export default {
 					videoAd
 						.load()
 						.then(() => videoAd.show())
+						.catch(err => {
+							console.log('激励视频 广告显示失败');
+						});
+				});
+			}
+		},
+		unlockContent:function(){
+			if (videoContentAd) {
+				videoContentAd.show().catch(() => {
+					// 失败重试
+					videoContentAd
+						.load()
+						.then(() => videoContentAd.show())
 						.catch(err => {
 							console.log('激励视频 广告显示失败');
 						});
@@ -486,6 +549,12 @@ page {
 .ad {
 	padding: 20rpx;
 }
+.new_ad {
+	text-align: center;
+	color: #55aaff;
+	margin: 30rpx 0;
+}
+
 .btm {
 	position: fixed;
 	background-color: #ffffff;
@@ -533,8 +602,9 @@ page {
 	z-index: 99999;
 	background-color: rgba(0, 0, 0, 0.5);
 	image {
+		
 		width: 500rpx;
-		margin: 125rpx;
+		margin: 300rpx 125rpx 0 125rpx;
 	}
 	.poster_btn {
 		display: flex;
@@ -659,7 +729,10 @@ page {
 }
 
 .content {
-	margin: 40rpx;
+	margin: 20rpx;
+	word-wrap:break-word; 
+	word-break:normal;
+	word-break:break-all;
 }
 
 .copyright {
@@ -758,8 +831,8 @@ page {
 .encryption {
 	margin: 30rpx;
 	padding: 10rpx;
-	box-shadow: 0 0 10rpx #dddddd;
-	border-radius: 20rpx;
+	box-shadow: 0 0 10rpx #f1f1f1;
+	border-radius: 10rpx;
 	text-align: center;
 
 	.encryption_title {

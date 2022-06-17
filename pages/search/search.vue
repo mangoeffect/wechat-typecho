@@ -52,7 +52,7 @@
 			return {
 				searchText: '', //搜索关键词
 				hList: uni.getStorageSync('search_cache'), //历史记录
-				hotKeywordList: ['小创果','博客小程序'], //由于时间关系并没有网络获取列表
+				hotKeywordList: ['OpenCV','图像算法','OpenMP'], //由于时间关系并没有网络获取列表
 			};
 		},
 		onLoad() {

@@ -10,7 +10,7 @@
 export default {
 	data() {
 		return {
-			url:"https://i4qq.com"
+			url:"https://mangoroom.cn"
 		};
 	},
 	onLoad() {

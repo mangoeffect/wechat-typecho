@@ -3,8 +3,9 @@
 		<view class="card" v-for="(item,index) in list" :key="index" @click="navigateToMiniProgram(item.appid)">
 			<image :src="item.image" mode="widthFix"></image>
 			<view class="name">{{item.name}}</view>
+			<image src="../../static/image/right.png" class="icon"></image>
 		</view>
-		<view class="copyright">-- {{title}} --</view>
+		<!-- <view class="copyright"> {{title}} </view> -->
 	</view>
 </template>
 
@@ -44,12 +45,17 @@ export default {
 		width: 700rpx;
 		margin: 30rpx 25rpx;
 		box-shadow: 0 0 100rpx #ececec;
-		padding: 10rpx;
+		padding: 20rpx;
 		border-radius: 20rpx;
 		image{
 			width: 100rpx;
 			border-radius: 20rpx;
 			margin-left: 20rpx;
+		}
+		.icon{
+			width: 50rpx;
+			height: 50rpx;
+			margin: 25rpx 25rpx 25rpx auto ;
 		}
 		.name{
 			line-height: 100rpx;

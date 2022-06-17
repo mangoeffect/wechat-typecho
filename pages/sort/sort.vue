@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="bg">
 		<view class="cat_list">
 			<view class="cat" v-for="(item,index) in catList" :key="index" @click="goSortList(item.mid,item.name)">
 				<view class="name">{{item.name}}</view>
@@ -26,7 +26,7 @@
 				uni.request({
 					url:API.GetCat()
 				}).then(res=>{
-					console.log(res)
+					// console.log(res)
 					this.catList = res[1].data.data
 					
 				})
@@ -41,16 +41,19 @@
 </script>
 
 <style lang="less">
+	.bg{
+		background-color: #f9f9f9;
+	}
 	page{
 	}
 	.cat_list{
 		display: flex;
 		flex-wrap: wrap;
 		.cat{
+			background-color: #FFFFFF;
 			width: 300rpx;
 			height: 500rpx;
-			border-radius: 30rpx;
-			box-shadow: 0 0 15rpx #f0f0f0;
+			border-radius: 20rpx;
 			margin: 30rpx 35rpx;
 			image{
 				position: relative;

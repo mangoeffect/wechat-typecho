@@ -4,27 +4,6 @@
 // 删除上述文字将不会获得维护 
 
 export default {
-	hotList: [{
-			"name": "学习手册",
-			"thumb": "https://tva2.sinaimg.cn/large/9bd9b167gy1g2rmelkfw0j21hc0u01kx.jpg",
-			"mid": "2"
-		},
-		{
-			"name": "资源分享",
-			"thumb": "https://tva2.sinaimg.cn/large/9bd9b167ly1g2rkray1o3j21hc0u047g.jpg",
-			"mid": "8"
-		},
-		{
-			"name": "生活日记",
-			"thumb": "https://tva2.sinaimg.cn/large/9bd9b167ly1g2rkomtev1j21hc0u0dm5.jpg",
-			"mid": "3"
-		},
-		{
-			"name": "诗和远方",
-			"thumb": "https://tva2.sinaimg.cn/large/9bd9b167gy1g2rmelkfw0j21hc0u01kx.jpg",
-			"mid": "7"
-		}
-	],
 	miniprogramlist: [{
 			"name": "手机壁纸",
 			"appid": "wx200e07941fdbe8be",
@@ -47,9 +26,9 @@ export default {
 		}
 
 	],
-	adId:{
-		"interstitialAd":"adunit-3e2d9832e7345cff", //插屏广告
-		"createRewardedVideoAd":"adunit-ac6f9c22e5bf1d89"//激励视频广告
+	adId: {
+		"interstitialAd": "#adunit-3e2d9832e7345cff", //插屏广告
+		"createRewardedVideoAd": "#adunit-ac6f9c22e5bf1d89" //激励视频广告
 	},
-	accountUrl:"https://mp.weixin.qq.com/s/lYCMWImQiumEc2BhTuXHLA"
+	accountUrl: "https://mp.weixin.qq.com/s/GkD1VRgEXGou9y6L2zbX_A"
 }

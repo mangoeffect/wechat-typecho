@@ -107,12 +107,12 @@
 			margin: 27.5rpx;
 			width: 320rpx;
 			box-shadow: 0 0 10rpx #e1e1e1;
-			border-radius: 20rpx;
+			border-radius: 10rpx;
 
 			.thumb {
 				width: 320rpx;
 				height: 150rpx;
-				border-radius: 20rpx 20rpx 0 0 ;
+				border-radius: 10rpx 10rpx 0 0 ;
 			}
 
 			.title {

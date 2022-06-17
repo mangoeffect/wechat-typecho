@@ -1,8 +1,8 @@
 {
-    "name" : "双鱼小程序 - typecho",
+    "name" : "芒果小屋",
     "appid" : "__UNI__EAB0F35",
     "description" : "",
-    "versionName" : "双鱼小程序 - typecho",
+    "versionName" : "芒果小屋",
     "versionCode" : 214,
     "transformPx" : false,
     "app-plus" : {
@@ -47,14 +47,14 @@
     "quickapp" : {},
     /* 快应用特有相关 */
     "mp-weixin" : {
-        "appid" : "wx76e8f9a46e9f083e",
+        "appid" : "wx676c70d70f0810ae",
         "setting" : {
             "urlCheck" : false,
             "es6" : true
         }
     },
     "h5" : {
-        "title" : "双鱼小程序 - typecho",
+        "title" : "",
         "domain" : "miniprogram.i4qq.com",
         "router" : {
             "base" : "./"

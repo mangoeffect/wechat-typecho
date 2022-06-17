@@ -4,8 +4,8 @@
 // 删除上述文字将不会获得维护 
 
 
-var domain = "www.anhaowu.com";
-var apisec = "480839154";
+var domain = "mangoroom.cn";
+var apisec = "xxx";
 var API_URL = 'https://' + domain + '/api/';
 
 
@@ -27,6 +27,9 @@ module.exports = {
 	},
 	GetAboutCid: function() {
 		return this.appendAPISEC(API_URL + 'getaboutcid?');
+	},
+	GetHotCat: function() {
+		return this.appendAPISEC(API_URL + 'gethotcat?');
 	},
 	GetSwiperPost:function() {
 		return this.appendAPISEC(API_URL + 'getswiperpost?');
@@ -82,6 +85,9 @@ module.exports = {
 	},
 	Getuserlikedlist: function(cid) {
 		return this.appendAPISEC(API_URL + 'getuserlikedlist?cid=' + cid);
+	},
+	GetUserCollection:function(openid){
+		return this.appendAPISEC(API_URL + 'getusercollection?openid=' + openid);
 	},
 	GetServerStat: function() {
 		return this.appendAPISEC(API_URL + 'get_stat?');

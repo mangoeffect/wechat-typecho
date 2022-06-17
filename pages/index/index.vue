@@ -4,11 +4,20 @@
 <!-- 删除上述文字将不会获得维护 -->
 
 <template>
-	<view>
+	<view class="bg">
 		<view class="haibao">
 			<swiper :circular="true" :autoplay="true" :duration="1000" class="swiper">
 				<swiper-item v-for="(item, index) in haiBao" :key="index" @click="goDetails(item.cid)">
 					<image :src="item.thumb[0].str_value" mode="aspectFill"></image>
+				</swiper-item>
+			</swiper>
+		</view>
+
+		<view class="notice">
+			<image src="../../static/gg.png"></image>
+			<swiper class="notice_c" :autoplay="true" :interval="3000" :duration="1000" :vertical="true" :circular="true">
+				<swiper-item v-for="(item, index) in recommend" :key="index" @click="goDetails(item.cid)">
+					<view>{{ item.title }}</view>
 				</swiper-item>
 			</swiper>
 		</view>
@@ -21,25 +30,10 @@
 		</view>
 
 		<scroll-view scroll-x="true" class="sort_list">
-			<view v-for="(item, index) in sortList" :key="index" class="sort" @click="goSortList(item.mid, item.name)">
-				<image :src="item.thumb" mode="widthFix"></image>
-				<view class="name">{{ item.name }}</view>
+			<view v-for="(item, index) in hotCat" :key="index" class="sort" @click="goSortList(item.mid, item.name)">
+				<image :src="item.thumb" mode="aspectFill" class="sort_image"></image>
 			</view>
 		</scroll-view>
-
-		<!-- 	<view class="cat_list">
-			<view class="cat_card" v-for="(item,index) in sortList" :key="index">
-				<image :src="item.thumb" mode="widthFix"></image>
-			</view>
-		</view> -->
-		<view class="notice">
-			<image src="../../static/gg.png"></image>
-			<swiper class="notice_c" :autoplay="true" :interval="3000" :duration="1000" :vertical="true" :circular="true">
-				<swiper-item v-for="(item, index) in recommend" :key="index" @click="goDetails(item.cid)">
-					<view>{{ item.title }}</view>
-				</swiper-item>
-			</swiper>
-		</view>
 
 		<view class="cu-bar">
 			<view class="action">
@@ -50,48 +44,42 @@
 
 		<view class="article_list">
 			<view v-for="(item, index) in articleList" :key="index">
+				<view class="new_ad" v-if="index % 5 == 2"><ad unit-id="adunit-aeed43498ec75860" ad-type="video" ad-theme="white"></ad></view>
+
 				<view class="article1" @click="goDetails(item.cid)" v-if="item.style[0].str_value == '1'">
 					<view class="flex">
 						<view class="title">{{ item.title }}</view>
-						<image :src="item.thumb[0].str_value" class="thumb" mode="widthFix"></image>
+						<image :src="item.thumb[0].str_value" class="thumb" mode="aspectFill"></image>
 					</view>
 					<view class="flex margin-top text-gray">
 						<view class="author">{{ item.author }}</view>
 						<view class="times">{{ item.month + '月' + item.day + '日' }}</view>
-						<!-- <view class="views"><text class="cuIcon-attention margin-right-xs"></text>{{item.views[0].views}}</view>
-					<view class="likes"><text class="cuIcon-like margin-right-xs"></text>{{item.likes[0].likes}}</view> -->
 						<view style="margin-left: auto;"><text class="cuIcon-more"></text></view>
 					</view>
 				</view>
-				<!-- <view class="article1 ad" v-if="index%5==3">
-				<ad unit-id="adunit-b1362a923c58a450"></ad>
-			</view> -->
 
 				<view class="article2" @click="goDetails(item.cid)" v-if="item.style[0].str_value == '2'">
 					<view class="flex">
-						<image :src="item.thumb[0].str_value" class="thumb" mode="widthFix"></image>
+						<image :src="item.thumb[0].str_value" class="thumb" mode="aspectFill"></image>
 						<view class="title">{{ item.title }}</view>
 					</view>
 					<view class="flex margin-top text-gray">
 						<view class="author">{{ item.author }}</view>
 						<view class="times">{{ item.month + '月' + item.day + '日' }}</view>
-						<!-- 					<view class="views"><text class="cuIcon-attention margin-right-xs"></text>{{item.views[0].views}}</view>
-					<view class="likes"><text class="cuIcon-like margin-right-xs"></text>{{item.likes[0].likes}}</view> -->
 						<view style="margin-left: auto;"><text class="cuIcon-more"></text></view>
 					</view>
 				</view>
 
 				<view class="article3" @click="goDetails(item.cid)" v-if="item.style[0].str_value == '3'">
-					<image :src="item.thumb[0].str_value" class="thumb" mode="widthFix"></image>
+					<image :src="item.thumb[0].str_value" class="thumb" mode="aspectFill"></image>
 					<view class="title">{{ item.title }}</view>
 					<view class="flex text-gray">
 						<view class="author">{{ item.author }}</view>
 						<view class="times">{{ item.month + '月' + item.day + '日' }}</view>
-						<!-- 					<view class="views"><text class="cuIcon-attention margin-right-xs"></text>{{item.views[0].views}}</view>
-					<view class="likes"><text class="cuIcon-like margin-right-xs"></text>{{item.likes[0].likes}}</view> -->
 						<view style="margin-left: auto; margin-right: 20rpx;"><text class="cuIcon-more"></text></view>
 					</view>
 				</view>
+
 				<view class="article4" @click="goDetails(item.cid)" v-if="item.style[0].str_value == '4'">
 					<view class="title">{{ item.title }}</view>
 					<view class="article_dec">{{ item.description[0].str_value }}</view>
@@ -114,13 +102,13 @@ export default {
 		return {
 			haiBao: [],
 			articleList: [],
-			sortList: [],
+			hotCat: [],
 			recommend: []
 		};
 	},
 	onLoad() {
-		this.sortList = CFG.hotList;
 		this.getHaibao();
+		this.getHotCat()
 		this.getArticleList();
 		this.getRecommend();
 	},
@@ -147,19 +135,40 @@ export default {
 				url: API.GetSwiperPost(),
 				success: res => {
 					this.haiBao = res.data.data;
-					console.log(res.data.data);
+					// console.log(res.data.data);
 				}
 			});
 		},
 		getArticleList: function() {
-			var that = this;
 			uni.request({
 				url: API.GetPosts(),
-				success: function(res) {
-					console.log(res.data.data);
-					that.articleList = res.data.data;
+				success: res => {
+					// console.log(res.data.data);
+					this.articleList = res.data.data;
 				}
 			});
+		},
+		getHotCat: function() {
+			uni.request({
+				url:API.GetHotCat(),
+				success: (res) => {
+					if(res.data.data){
+						let data = res.data.data.split(/[\n]/g)
+						let hotCat = data.map(item=>{
+							return {
+								'name':item.split('|')[0],
+								'mid':item.split('|')[1],
+								'thumb':item.split('|')[2]
+								
+							}
+						})
+						this.hotCat = hotCat
+						console.log(this.hotCat)
+					}
+					
+					
+				}
+			})
 		},
 		getNewArticleList: function() {
 			uni.request({
@@ -169,10 +178,9 @@ export default {
 				},
 				success: res => {
 					if (res.data.status == '403') {
-						//没有数据
 						return;
 					}
-					page++; //每触底一次 page +1
+					page++;
 					// console.log(page);
 					this.articleList = this.articleList.concat(res.data.data); //将数据拼接在一起
 				}
@@ -193,7 +201,7 @@ export default {
 				url: API.GetRecommend(),
 				success: res => {
 					this.recommend = res.data.data;
-					console.log(res.data.data);
+					// console.log(res.data.data);
 				}
 			});
 		}
@@ -202,38 +210,48 @@ export default {
 </script>
 
 <style lang="less">
+.bg {
+	background-color: #f9f9f9;
+}
 .swiper {
 	width: 700rpx;
 	margin: 0 25rpx;
 	height: 300rpx;
+	border-radius: 10rpx;
+	overflow: hidden;
 	image {
 		width: 700rpx;
 		height: 300rpx;
-		border-radius: 30rpx;
+		border-radius: 10rpx;
 	}
 }
+.new_ad {
+	margin: 30rpx 20rpx;
+}
 .haibao {
+	margin-top: 10rpx;
 	height: 300rpx;
 }
 
 .notice {
 	display: flex;
 	padding: 20rpx;
-
+	margin-top: 10rpx;
+	background-color: #ffffff;
 	image {
 		width: 180rpx;
 		height: 180rpx;
 		height: 70rpx;
-		border-radius: 30rpx 0 0 30rpx;
+		border-radius: 20rpx 0 0 20rpx;
 	}
 
 	.notice_c {
 		width: 530rpx;
 		height: 60rpx;
-		padding: 0 10rpx;
+		padding: 0 20rpx 0 10rpx;
 		background-color: #c5c5c5;
 		color: #ffffff;
-		border-radius: 0 30rpx 30rpx 0;
+		border-radius: 0 20rpx 20rpx 0;
 		line-height: 60rpx;
 		font-size: 30rpx;
 		overflow: hidden;
@@ -260,9 +278,10 @@ export default {
 	.article1 {
 		width: 710rpx;
 		margin: 30rpx 20rpx;
-		box-shadow: 0 0 100rpx #f3f3f3;
+		background-color: #ffffff;
+		background-color: #ffffff;
 		padding: 20rpx 25rpx;
-		border-radius: 10rpx;
+		border-radius: 5rpx;
 
 		.title {
 			width: 420rpx;
@@ -273,14 +292,15 @@ export default {
 			-webkit-line-clamp: 2;
 			line-clamp: 2;
 			-webkit-box-orient: vertical;
-			font-size: 32rpx;
+			font-size: 30rpx;
 			line-height: 50rpx;
 		}
 
 		.thumb {
 			width: 220rpx;
+			height: 130rpx;
 			margin-left: auto;
-			border-radius: 10rpx;
+			border-radius: 5rpx;
 		}
 
 		.author {
@@ -307,13 +327,14 @@ export default {
 	.article2 {
 		width: 710rpx;
 		margin: 30rpx 20rpx;
-		box-shadow: 0 0 100rpx #f3f3f3;
+		background-color: #ffffff;
 		padding: 20rpx 25rpx;
-		border-radius: 10rpx;
+		border-radius: 5rpx;
 
 		.thumb {
 			width: 220rpx;
-			border-radius: 10rpx;
+			height: 130rpx;
+			border-radius: 5rpx;
 		}
 
 		.title {
@@ -326,7 +347,7 @@ export default {
 			-webkit-line-clamp: 2;
 			line-clamp: 2;
 			-webkit-box-orient: vertical;
-			font-size: 32rpx;
+			font-size: 30rpx;
 			line-height: 50rpx;
 		}
 
@@ -354,19 +375,20 @@ export default {
 	.article3 {
 		margin: 30rpx 20rpx;
 		width: 710rpx;
-		border-radius: 20rpx;
-		box-shadow: 0 0 100rpx #f3f3f3;
+		border-radius: 10rpx;
+		background-color: #ffffff;
 		padding-bottom: 20rpx;
 
 		.thumb {
 			width: 710rpx;
-			border-radius: 20rpx 20rpx 0 0;
+			height: 300rpx;
+			border-radius: 10rpx 10rpx 0 0;
 		}
 
 		.title {
 			width: 690rpx;
 			padding: 10rpx 20rpx;
-			font-size: 32rpx;
+			font-size: 30rpx;
 			overflow: hidden;
 			white-space: nowrap;
 			text-overflow: ellipsis;
@@ -396,22 +418,21 @@ export default {
 	}
 	.article4 {
 		margin: 30rpx 20rpx;
-		box-shadow: 0 0 100rpx #f3f3f3;
+		background-color: #ffffff;
 		border-radius: 30rpx;
 		padding: 10rpx;
 		.title {
 			width: 645rpx;
-			font-size: 35rpx;
-			font-weight: bold;
+			font-size: 30rpx;
 			margin: 20rpx 10rpx;
 			overflow: hidden;
 			white-space: nowrap;
 			text-overflow: ellipsis;
 		}
 		.article_dec {
-			margin: 30rpx;
+			margin: 30rpx 0;
 			padding: 20rpx;
-			border-radius: 10rpx;
+			border-radius: 5rpx;
 			background-color: #f1f1f1;
 		}
 		.des {
@@ -436,18 +457,16 @@ export default {
 
 .sort_list {
 	width: 100%;
-	height: 250rpx;
 	white-space: nowrap;
-
 	.sort {
 		margin: 0 20rpx;
-		box-shadow: 0 0 10rpx #f1f1f1;
+		box-shadow: 0 0 20rpx #f1f1f1;
 		width: 300rpx;
 		border-radius: 0 0 10rpx 10rpx;
 		display: inline-block;
-
-		image {
+		.sort_image {
 			width: 300rpx;
+			height: 278rpx;
 			border-radius: 10rpx 10rpx 0 0;
 		}
 

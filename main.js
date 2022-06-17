@@ -2,6 +2,8 @@ import Vue from 'vue'
 import App from './App'
 
 
+Vue.prototype.towxml = require('./static/towxml/index.js')
+
 import cuCustom from './colorui/components/cu-custom.vue'
 Vue.component('cu-custom',cuCustom)
 
@@ -12,6 +14,7 @@ App.mpType = 'app'
 const app = new Vue({
     ...App
 })
+
 app.$mount()
 
  

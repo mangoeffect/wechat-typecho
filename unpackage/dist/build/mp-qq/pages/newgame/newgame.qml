@@ -1,1 +1,0 @@
-<view><block qq:for="{{list}}" qq:for-item="item" qq:for-index="index" qq:key="index"><view data-event-opts="{{[['tap',[['navigateToMiniProgram',['$0'],[[['list','',index,'appid']]]]]]]}}" class="card" bindtap="__e"><image src="{{item.image}}" mode="widthFix"></image><view class="name">{{item.name}}</view></view></block><view class="copyright">{{"-- "+title+" --"}}</view></view>

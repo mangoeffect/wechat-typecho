@@ -56,7 +56,7 @@ var cfg = {
 		h1:"margin: 20rpx 0;",
 		h2:"margin: 20rpx 0;",
 		h3:"margin: 20rpx 0;",
-		img:"border-radius: 10rpx;"
+		img:""
 	}
 }
 
